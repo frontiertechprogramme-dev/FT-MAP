@@ -1,10 +1,27 @@
-// Other code...
-
-function buildPopupHTML() {
-    // Your existing code...
-    return `<div style="color: #1A807D;">
-        <!-- your content here -->
-    </div>`; // Added the missing closing </div>
-}  
-
-// Other code...
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FT-MAP</title>
+    <style>
+        /* Other styles */
+        .example { color: #1A807D; } /* Updated color */
+    </style>
+</head>
+<body>
+    <div id="mapContainer">
+        <!-- Map content here -->
+    </div>
+    <script>
+        function buildPopupHTML() {
+            return `
+                <div class='popup'>
+                    <h3>Title</h3>
+                    <p>Description</p>
+                </div> <!-- Added closing div tag -->
+            `;
+        }
+    </script>
+</body>
+</html>
