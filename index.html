@@ -187,171 +187,6 @@
 
     .leaflet-control-attribution { display: none; }
 
-    #infoPanel {
-      position: absolute;
-      top: 56px;
-      right: 14px;
-      width: 420px;
-      max-width: calc(100vw - 28px);
-      max-height: calc(100vh - 80px);
-      background: rgba(255,255,255,0.96);
-      border-radius: 18px;
-      box-shadow: 0 18px 50px rgba(0,0,0,0.25);
-      overflow: hidden;
-      display: none;
-      z-index: 10;
-      backdrop-filter: blur(6px);
-    }
-
-    #infoPanelHeader {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      padding: 14px 14px 12px 14px;
-      border-bottom: 1px solid rgba(0,0,0,0.08);
-      background: rgba(255,255,255,0.9);
-    }
-
-    #infoPanelTitle {
-      font-weight: 700;
-      font-size: 14px;
-      color: #111;
-      margin: 0;
-      line-height: 1.2;
-    }
-
-    #infoPanelMeta {
-      font-size: 12px;
-      opacity: 0.75;
-      margin-top: 2px;
-    }
-
-    #infoPanelBody {
-      padding: 14px;
-      overflow-y: auto;
-      max-height: 65vh;
-    }
-
-    .panel-project {
-      padding: 12px;
-      margin-bottom: 12px;
-      background: #f6f6f6;
-      border-radius: 12px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-    }
-
-    .panel-project-title {
-      font-weight: 800;
-      font-size: 14px;
-      margin: 0 0 6px 0;
-      color: #111;
-    }
-
-    .panel-row {
-      font-size: 13px;
-      color: #111;
-      margin: 2px 0;
-    }
-
-    .panel-row strong {
-      font-weight: 700;
-    }
-
-    .theme-chips {
-      margin-top: 10px;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-    }
-
-    .theme-chip {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 4px 8px;
-      border-radius: 999px;
-      background: rgba(0,0,0,0.06);
-      border: 1px solid rgba(0,0,0,0.12);
-      font-size: 12px;
-      color: #111;
-      white-space: nowrap;
-    }
-
-    .theme-dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 999px;
-      display: inline-block;
-      border: 1px solid rgba(255,255,255,0.35);
-    }
-
-    .leaflet-popup-tip {
-      display: none;
-    }
-
-    .leaflet-popup-content-wrapper {
-      border-radius: 16px;
-      overflow: hidden;
-    }
-
-    .leaflet-popup {
-      border-radius: 16px;
-    }
-
-    .project-popup .leaflet-popup-content {
-      margin: 0;
-      width: 420px;
-      max-height: 360px;
-      overflow: auto;
-    }
-
-    .project-popup .popup-header {
-      padding: 14px 14px 10px 14px;
-      border-bottom: 1px solid rgba(0,0,0,0.08);
-      background: rgba(255,255,255,0.95);
-    }
-
-    .project-popup .popup-title {
-      font-weight: 800;
-      font-size: 16px;
-      color: #111;
-      line-height: 1.2;
-    }
-
-    .project-popup .popup-meta {
-      font-size: 12px;
-      opacity: 0.75;
-      margin-top: 2px;
-    }
-
-    .project-popup .popup-body {
-      padding: 14px;
-      max-height: 300px;
-      overflow-y: auto;
-      overflow-x: hidden;
-    }
-
-    .project-button {
-      display: inline-block;
-      margin-top: 8px;
-      padding: 8px 16px;
-      background: #ffffff;
-      color: #1A807D;
-      text-decoration: none;
-      border-radius: 6px;
-      font-size: 13px;
-      font-weight: 600;
-      border: 1px solid #1A807D;
-      cursor: pointer;
-      transition: background 0.2s ease;
-    }
-
-    .project-button:hover {
-      background: #156460;
-      color: #ffffff;
-    }
-
     @media (max-width: 640px) {
       #infoPanel {
         left: 14px;
@@ -397,13 +232,8 @@
 
     <div id="map"></div>
 
-    <div id="infoPanel" role="dialog" aria-modal="false" aria-label="Country projects panel">
-      <div id="infoPanelHeader">
-        <div>
-          <div id="infoPanelTitle">Pilots</div>
-          <div id="infoPanelMeta"></div>
-        </div>
-      </div>
+    </div>
+  </div>
       <div id="infoPanelBody"></div>
     </div>
   </div>
@@ -717,8 +547,22 @@
           statusFilter = e.target.dataset.status;
           updateProjectCount();
           if (geoLayer) geoLayer.setStyle(regionStyle);
-          closePanel();
+          if (pinnedCountryIso) {
+            const pinnedCountryProjects = projectByIso.get(pinnedCountryIso);
+            if (pinnedCountryProjects) {
+              const html = buildPopupHTML(pinnedCountryProjects);
+              if (html) {
+                const layer = geoLayer.getLayers().find((l) => getIsoFromFeature(l.feature) === pinnedCountryIso);
+                if (layer) {
+                  hoverPopup.setLatLng(layer.getBounds().getCenter()).setContent(html).openOn(map);
+                }
+              } else {
+                closePanel();
+              }
+            }
+          }
         });
+      });
       });
 
       themeDropdownButton.addEventListener("click", () => {
@@ -733,7 +577,20 @@
         updateThemeDropdownUI();
         updateProjectCount();
         if (geoLayer) geoLayer.setStyle(regionStyle);
-        closePanel();
+        if (pinnedCountryIso) {
+          const pinnedCountryProjects = projectByIso.get(pinnedCountryIso);
+          if (pinnedCountryProjects) {
+            const html = buildPopupHTML(pinnedCountryProjects);
+            if (html) {
+              const layer = geoLayer.getLayers().find((l) => getIsoFromFeature(l.feature) === pinnedCountryIso);
+              if (layer) {
+                hoverPopup.setLatLng(layer.getBounds().getCenter()).setContent(html).openOn(map);
+              }
+            } else {
+              closePanel();
+            }
+          }
+        }
         themeDropdown.classList.remove("open");
         themeDropdownButton.setAttribute("aria-expanded", "false");
       });
@@ -848,36 +705,10 @@
         };
       }
 
-      const infoPanel = document.getElementById("infoPanel");
-      const infoPanelTitle = document.getElementById("infoPanelTitle");
-      const infoPanelMeta = document.getElementById("infoPanelMeta");
-      const infoPanelBody = document.getElementById("infoPanelBody");
-
-      function openPanel(countryProjects) {
-        const filteredProjects = getFilteredProjects(countryProjects);
-        if (filteredProjects.length === 0) {
-          closePanel();
-          return;
-        }
-
-        infoPanelTitle.textContent = countryProjects.country;
-        infoPanelMeta.textContent = `${filteredProjects.length} Pilot${filteredProjects.length === 1 ? "" : "s"}`;
-        infoPanelBody.innerHTML = filteredProjects.map((proj) => `
-          <div class="panel-project">
-            <div class="panel-project-title">${proj.project}</div>
-            <div class="panel-row"><strong>Pilot Status:</strong> ${proj.pilot_status || "-"}</div>
-            ${renderThemeChips(proj.themes)}
-            ${proj.url ? `<a href="${proj.url}" class="project-button" target="_blank" rel="noopener noreferrer">Learn more</a>` : ""}
-          </div>
-        `).join("");
-        infoPanel.style.display = "block";
-      }
+      let pinnedCountryIso = null;
 
       function closePanel() {
-        infoPanel.style.display = "none";
-        infoPanelTitle.textContent = "Pilots";
-        infoPanelMeta.textContent = "";
-        infoPanelBody.innerHTML = "";
+        pinnedCountryIso = null;
         map.closePopup(hoverPopup);
       }
 
@@ -906,26 +737,35 @@
             if (!countryProjects) return;
 
             layer.on("mouseover", (e) => {
+              if (pinnedCountryIso && pinnedCountryIso !== iso) return;
               const html = buildPopupHTML(countryProjects);
               if (!html) return;
               hoverPopup.setLatLng(e.latlng).setContent(html).openOn(map);
             });
 
             layer.on("mouseout", (e) => {
+              if (pinnedCountryIso === iso) return;
               const related = e?.originalEvent?.relatedTarget;
               if (related && related.closest && related.closest(".project-popup")) return;
               map.closePopup(hoverPopup);
             });
 
             layer.on("click", () => {
-              openPanel(countryProjects);
+              const html = buildPopupHTML(countryProjects);
+              if (!html) {
+                closePanel();
+                return;
+              }
+              pinnedCountryIso = iso;
+              hoverPopup.setLatLng(layer.getBounds().getCenter()).setContent(html).openOn(map);
             });
           }
         }).addTo(map);
 
         map.on("click", (e) => {
           const clickedOnCountry = e.originalEvent?.target?.closest?.(".leaflet-interactive");
-          if (!clickedOnCountry) closePanel();
+          const clickedOnPopup = e.originalEvent?.target?.closest?.(".project-popup");
+          if (!clickedOnCountry && !clickedOnPopup) closePanel();
         });
 
         const bounds = [];
