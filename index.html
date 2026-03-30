@@ -46,8 +46,9 @@
       font-size: 13px;
       color: #ffffff;
       opacity: 0.75;
-      margin-left: auto;
+      margin-left: 0;
       padding-right: 10px;
+      order: 4;
     }
 
     #themeSelect {
@@ -146,6 +147,7 @@
       align-items: center;
       gap: 8px;
       margin-left: auto;
+      order: 3;
     }
 
     .toggle-group label {
@@ -206,8 +208,14 @@
 
     .project-popup .popup-header {
       padding: 14px 14px 10px 14px;
-      border-bottom: 1px solid rgba(0,0,0,0.08);
-      background: rgba(255,255,255,0.95);
+      border-bottom: 1px solid rgba(255,255,255,0.12);
+      background: #334267;
+    }
+
+    .project-popup .popup-header .popup-title,
+    .project-popup .popup-header .popup-meta {
+      color: #ffffff;
+      opacity: 1;
     }
 
     .project-popup .popup-title {
@@ -290,7 +298,8 @@
       text-decoration: none;
       border-radius: 6px;
       font-size: 13px;
-      font-weight: 600;
+      font-weight: 700;
+      text-transform: uppercase;
       border: 1px solid #1A807D;
       cursor: pointer;
       transition: background 0.2s ease;
@@ -504,7 +513,7 @@
 
       const themeColors = {
         "Agriculture and Food Security": "#47eafc",
-        "Climate": "#7c3aed",
+        "Climate": "#e76f51",
         "Education": "#ffd43b",
         "Global Health": "#ff4d6d",
         "Human Rights and Democracy": "#845ef7",
@@ -516,7 +525,12 @@
       };
 
       const defaultColor = "#ffffff";
-      const themes = Array.from(new Set(projects.flatMap((p) => p.projects.flatMap((proj) => proj.themes)))).sort();
+      const themes = Array.from(new Set(projects.flatMap((p) => p.projects.flatMap((proj) => proj.themes))))
+        .sort((a, b) => {
+          if (a === "Other") return 1;
+          if (b === "Other") return -1;
+          return a.localeCompare(b);
+        });
 
       const themeSelect = document.getElementById("themeSelect");
       const projectCountEl = document.getElementById("projectCount");
@@ -692,6 +706,7 @@
 
       function clearPinnedPopup() {
         pinnedPopup = null;
+        map._hoveredIso = null;
         map.closePopup();
       }
 
@@ -742,6 +757,20 @@
 
       map.zoomControl.setPosition("topright");
 
+      const zoomStyle = document.createElement("style");
+      zoomStyle.textContent = `
+        .leaflet-control-zoom a {
+          background: #334267 !important;
+          color: #ffffff !important;
+          border-color: rgba(255,255,255,0.15) !important;
+        }
+        .leaflet-control-zoom a:hover {
+          background: #3f507d !important;
+          color: #ffffff !important;
+        }
+      `;
+      document.head.appendChild(zoomStyle);
+
       async function init() {
         buildThemeDropdown();
         updateProjectCount();
@@ -766,8 +795,10 @@
 
             layer.on("mouseover", (e) => {
               if (pinnedPopup) return;
+              if (map._hoveredIso === iso) return;
               const html = buildPopupHTML(countryProjects);
               if (!html) return;
+              map._hoveredIso = iso;
               const popup = L.popup({ autoPan: true, closeButton: false, className: "project-popup" })
                 .setLatLng(e.latlng)
                 .setContent(html);
@@ -778,6 +809,7 @@
               if (pinnedPopup) return;
               const related = e?.originalEvent?.relatedTarget;
               if (related && related.closest && related.closest(".project-popup")) return;
+              map._hoveredIso = null;
               map.closePopup();
             });
 
@@ -787,6 +819,7 @@
                 clearPinnedPopup();
                 return;
               }
+              map._hoveredIso = iso;
               const popup = L.popup({ autoPan: true, closeButton: false, className: "project-popup" })
                 .setLatLng(layer.getBounds().getCenter())
                 .setContent(html);
