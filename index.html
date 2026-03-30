@@ -175,14 +175,7 @@
     color: #ffffff;
   }
 
-  #themeDot {
-    width: 10px;
-    height: 10px;
-    border-radius: 999px;
-    display: inline-block;
-    border: 1px solid rgba(255,255,255,0.35);
-    background: #ffffff;
-  }
+  
 
   #map {
     flex: 1;
@@ -391,7 +384,6 @@
   <div id="app">
     <div id="toolbar">
       <label for="themeSelect">Explore by theme</label>
-      <span id="themeDot" aria-hidden="true"></span>
       <div class="theme-dropdown" id="themeDropdown">
         <button type="button" id="themeDropdownButton" class="theme-dropdown-button" aria-haspopup="listbox" aria-expanded="false">
           <span class="theme-dropdown-selected">
@@ -661,7 +653,6 @@ const projects = Object.values(groupedProjects).sort((a, b) => a.country.localeC
       ).sort();
 
       const themeSelect = document.getElementById("themeSelect");
-      const themeDot = document.getElementById("themeDot");
       const projectCountEl = document.getElementById("projectCount");
       const themeDropdown = document.getElementById("themeDropdown");
       const themeDropdownButton = document.getElementById("themeDropdownButton");
@@ -717,9 +708,7 @@ function currentThemeColor() {
       }
 
       function updateThemeDot() {
-        if (!themeDot) return;
         const color = currentThemeColor();
-        themeDot.style.background = color;
         themeDropdownSelectedCircle.style.background = color;
         const selectedOption = themeSelect.options[themeSelect.selectedIndex];
         themeDropdownSelectedLabel.textContent = selectedOption ? selectedOption.textContent : "All projects";
