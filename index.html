@@ -193,6 +193,8 @@
     .leaflet-popup-content-wrapper {
       border-radius: 16px;
       overflow: hidden;
+      padding: 0;
+      background: #ffffff;
     }
 
     .leaflet-popup {
@@ -204,12 +206,14 @@
       width: 420px;
       max-height: 360px;
       overflow: auto;
+      background: #ffffff;
     }
 
     .project-popup .popup-header {
       padding: 14px 14px 10px 14px;
       border-bottom: 1px solid rgba(255,255,255,0.12);
       background: #334267;
+      margin: 0;
     }
 
     .project-popup .popup-header .popup-title,
@@ -294,11 +298,12 @@
       margin-top: 8px;
       padding: 8px 16px;
       background: #ffffff;
-      color: #1A807D;
+      color: #1A807D !important;
       text-decoration: none;
       border-radius: 6px;
       font-size: 13px;
-      font-weight: 700;
+      font-weight: 400;
+      letter-spacing: 0.08em;
       text-transform: uppercase;
       border: 1px solid #1A807D;
       cursor: pointer;
@@ -307,7 +312,17 @@
 
     .project-button:hover {
       background: #156460;
-      color: #ffffff;
+      color: #ffffff !important;
+    }
+
+    .project-button:visited,
+    .project-button:active {
+      color: #1A807D !important;
+    }
+
+    .project-button:hover:visited,
+    .project-button:hover:active {
+      color: #ffffff !important;
     }
 
     @media (max-width: 640px) {
