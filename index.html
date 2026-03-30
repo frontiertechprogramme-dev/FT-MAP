@@ -186,17 +186,122 @@
     }
 
     .leaflet-control-attribution { display: none; }
+    .leaflet-popup-tip { display: none; }
+
+    .leaflet-popup-content-wrapper {
+      border-radius: 16px;
+      overflow: hidden;
+    }
+
+    .leaflet-popup {
+      border-radius: 16px;
+    }
+
+    .project-popup .leaflet-popup-content {
+      margin: 0;
+      width: 420px;
+      max-height: 360px;
+      overflow: auto;
+    }
+
+    .project-popup .popup-header {
+      padding: 14px 14px 10px 14px;
+      border-bottom: 1px solid rgba(0,0,0,0.08);
+      background: rgba(255,255,255,0.95);
+    }
+
+    .project-popup .popup-title {
+      font-weight: 800;
+      font-size: 16px;
+      color: #111;
+      line-height: 1.2;
+    }
+
+    .project-popup .popup-meta {
+      font-size: 12px;
+      opacity: 0.75;
+      margin-top: 2px;
+    }
+
+    .project-popup .popup-body {
+      padding: 14px;
+      max-height: 300px;
+      overflow-y: auto;
+      overflow-x: hidden;
+    }
+
+    .panel-project {
+      padding: 12px;
+      margin-bottom: 12px;
+      background: #f6f6f6;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+
+    .panel-project-title {
+      font-weight: 800;
+      font-size: 14px;
+      margin: 0 0 6px 0;
+      color: #111;
+    }
+
+    .panel-row {
+      font-size: 13px;
+      color: #111;
+      margin: 2px 0;
+    }
+
+    .panel-row strong { font-weight: 700; }
+
+    .theme-chips {
+      margin-top: 10px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .theme-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 8px;
+      border-radius: 999px;
+      background: rgba(0,0,0,0.06);
+      border: 1px solid rgba(0,0,0,0.12);
+      font-size: 12px;
+      color: #111;
+      white-space: nowrap;
+    }
+
+    .theme-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      display: inline-block;
+      border: 1px solid rgba(255,255,255,0.35);
+    }
+
+    .project-button {
+      display: inline-block;
+      margin-top: 8px;
+      padding: 8px 16px;
+      background: #ffffff;
+      color: #1A807D;
+      text-decoration: none;
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: 600;
+      border: 1px solid #1A807D;
+      cursor: pointer;
+      transition: background 0.2s ease;
+    }
+
+    .project-button:hover {
+      background: #156460;
+      color: #ffffff;
+    }
 
     @media (max-width: 640px) {
-      #infoPanel {
-        left: 14px;
-        right: 14px;
-        width: auto;
-        top: auto;
-        bottom: 14px;
-        max-height: 55vh;
-      }
-
       .theme-dropdown {
         min-width: 220px;
         flex: 1 1 100%;
@@ -231,11 +336,6 @@
     </div>
 
     <div id="map"></div>
-
-    </div>
-  </div>
-      <div id="infoPanelBody"></div>
-    </div>
   </div>
 
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
@@ -350,50 +450,15 @@
       ];
 
       const countryIsoMap = {
-        "Bangladesh": "BGD",
-        "Botswana": "BWA",
-        "Brazil": "BRA",
-        "Bulgaria": "BGR",
-        "Chad": "TCD",
-        "Colombia": "COL",
-        "DRC": "COD",
-        "Ethiopia": "ETH",
-        "Ghana": "GHA",
-        "India": "IND",
-        "Iraq": "IRQ",
-        "Jordan": "JOR",
-        "Kenya": "KEN",
-        "Liberia": "LBR",
-        "Lithuania": "LTU",
-        "Malawi": "MWI",
-        "Malaysia": "MYS",
-        "Mexico": "MEX",
-        "Moldova": "MDA",
-        "Mozambique": "MOZ",
-        "Myanmar": "MMR",
-        "Nepal": "NPL",
-        "Nigeria": "NGA",
-        "Pakistan": "PAK",
-        "Palestine": "PSE",
-        "Peru": "PER",
-        "Philippines": "PHL",
-        "Rwanda": "RWA",
-        "Senegal": "SEN",
-        "Sierra Leone": "SLE",
-        "Solomon Islands": "SLB",
-        "South Africa": "ZAF",
-        "St Helena": "SHN",
-        "Sudan": "SDN",
-        "Tanzania": "TZA",
-        "Thailand": "THA",
-        "Uganda": "UGA",
-        "UK": "GBR",
-        "Ukraine": "UKR",
-        "Venezuela": "VEN",
-        "Vietnam": "VNM",
-        "Yemen": "YEM",
-        "Zambia": "ZMB",
-        "Zimbabwe": "ZWE"
+        "Bangladesh": "BGD", "Botswana": "BWA", "Brazil": "BRA", "Bulgaria": "BGR", "Chad": "TCD",
+        "Colombia": "COL", "DRC": "COD", "Ethiopia": "ETH", "Ghana": "GHA", "India": "IND",
+        "Iraq": "IRQ", "Jordan": "JOR", "Kenya": "KEN", "Liberia": "LBR", "Lithuania": "LTU",
+        "Malawi": "MWI", "Malaysia": "MYS", "Mexico": "MEX", "Moldova": "MDA", "Mozambique": "MOZ",
+        "Myanmar": "MMR", "Nepal": "NPL", "Nigeria": "NGA", "Pakistan": "PAK", "Palestine": "PSE",
+        "Peru": "PER", "Philippines": "PHL", "Rwanda": "RWA", "Senegal": "SEN", "Sierra Leone": "SLE",
+        "Solomon Islands": "SLB", "South Africa": "ZAF", "St Helena": "SHN", "Sudan": "SDN", "Tanzania": "TZA",
+        "Thailand": "THA", "Uganda": "UGA", "UK": "GBR", "Ukraine": "UKR", "Venezuela": "VEN",
+        "Vietnam": "VNM", "Yemen": "YEM", "Zambia": "ZMB", "Zimbabwe": "ZWE"
       };
 
       const sectorMap = {
@@ -417,27 +482,15 @@
       };
 
       const groupedProjects = {};
-      const unmappedSpreadsheetRows = [];
-
       rawPilots.forEach((row) => {
         const iso = countryIsoMap[row.country];
-        if (!iso) {
-          unmappedSpreadsheetRows.push(row);
-          return;
-        }
-
+        if (!iso) return;
         const countryLabel = countryNameMap[row.country] || row.country;
         const sectorLabel = sectorMap[row.sector] || row.sector;
         const statusLabel = row.pilot_status.toLowerCase() === "live" ? "Live" : "Closed";
-
         if (!groupedProjects[iso]) {
-          groupedProjects[iso] = {
-            iso_a3: iso,
-            country: countryLabel,
-            projects: []
-          };
+          groupedProjects[iso] = { iso_a3: iso, country: countryLabel, projects: [] };
         }
-
         groupedProjects[iso].projects.push({
           project: row.pilot,
           themes: [sectorLabel],
@@ -475,6 +528,7 @@
 
       let statusFilter = "live";
       let geoLayer = null;
+      let pinnedPopup = null;
 
       function currentThemeColor() {
         const selected = themeSelect.value;
@@ -487,7 +541,6 @@
         themeDropdownSelectedCircle.style.background = color;
         const selectedOption = themeSelect.options[themeSelect.selectedIndex];
         themeDropdownSelectedLabel.textContent = selectedOption ? selectedOption.textContent : "All projects";
-
         document.querySelectorAll(".theme-dropdown-option").forEach((option) => {
           option.classList.toggle("active", option.dataset.value === themeSelect.value);
         });
@@ -539,86 +592,6 @@
         updateThemeDropdownUI();
       }
 
-      const toggleButtons = document.querySelectorAll(".toggle-option");
-      toggleButtons.forEach((btn) => {
-        btn.addEventListener("click", (e) => {
-          toggleButtons.forEach((b) => b.classList.remove("active"));
-          e.target.classList.add("active");
-          statusFilter = e.target.dataset.status;
-          updateProjectCount();
-          if (geoLayer) geoLayer.setStyle(regionStyle);
-          if (pinnedCountryIso) {
-            const pinnedCountryProjects = projectByIso.get(pinnedCountryIso);
-            if (pinnedCountryProjects) {
-              const html = buildPopupHTML(pinnedCountryProjects);
-              if (html) {
-                const layer = geoLayer.getLayers().find((l) => getIsoFromFeature(l.feature) === pinnedCountryIso);
-                if (layer) {
-                  hoverPopup.setLatLng(layer.getBounds().getCenter()).setContent(html).openOn(map);
-                }
-              } else {
-                closePanel();
-              }
-            }
-          }
-        });
-      });
-      });
-
-      themeDropdownButton.addEventListener("click", () => {
-        const isOpen = themeDropdown.classList.toggle("open");
-        themeDropdownButton.setAttribute("aria-expanded", isOpen ? "true" : "false");
-      });
-
-      themeDropdownMenu.addEventListener("click", (event) => {
-        const option = event.target.closest(".theme-dropdown-option");
-        if (!option) return;
-        themeSelect.value = option.dataset.value;
-        updateThemeDropdownUI();
-        updateProjectCount();
-        if (geoLayer) geoLayer.setStyle(regionStyle);
-        if (pinnedCountryIso) {
-          const pinnedCountryProjects = projectByIso.get(pinnedCountryIso);
-          if (pinnedCountryProjects) {
-            const html = buildPopupHTML(pinnedCountryProjects);
-            if (html) {
-              const layer = geoLayer.getLayers().find((l) => getIsoFromFeature(l.feature) === pinnedCountryIso);
-              if (layer) {
-                hoverPopup.setLatLng(layer.getBounds().getCenter()).setContent(html).openOn(map);
-              }
-            } else {
-              closePanel();
-            }
-          }
-        }
-        themeDropdown.classList.remove("open");
-        themeDropdownButton.setAttribute("aria-expanded", "false");
-      });
-
-      document.addEventListener("click", (event) => {
-        if (!themeDropdown.contains(event.target)) {
-          themeDropdown.classList.remove("open");
-          themeDropdownButton.setAttribute("aria-expanded", "false");
-        }
-      });
-
-      const map = L.map("map", {
-        zoomControl: true,
-        scrollWheelZoom: true,
-        doubleClickZoom: true,
-        touchZoom: true,
-        dragging: true,
-        zoomSnap: 0.5
-      }).setView([15, 15], 2);
-
-      map.zoomControl.setPosition("topright");
-
-      const hoverPopup = L.popup({
-        autoPan: true,
-        closeButton: false,
-        className: "project-popup"
-      });
-
       function getIsoFromFeature(feature) {
         const props = feature?.properties || {};
         const iso = props.ADM0_A3 ?? props.ISO_A3 ?? props.iso_a3 ?? props.ISO3 ?? props.id ?? "";
@@ -652,7 +625,6 @@
       function buildPopupHTML(countryProjects) {
         const filtered = getFilteredProjects(countryProjects);
         if (filtered.length === 0) return "";
-
         return `
           <div class="popup-wrap">
             <div class="popup-header">
@@ -695,24 +667,80 @@
         if (!hasMatchingProject) return base;
 
         const fill = themeSelect.value === "__ALL__" ? defaultColor : (themeColors[themeSelect.value] || defaultColor);
-
-        return {
-          ...base,
-          opacity: 0.95,
-          weight: 1.4,
-          fillColor: fill,
-          fillOpacity: 0.55
-        };
+        return { ...base, opacity: 0.95, weight: 1.4, fillColor: fill, fillOpacity: 0.55 };
       }
 
-      let pinnedCountryIso = null;
-
-      function closePanel() {
-        pinnedCountryIso = null;
-        map.closePopup(hoverPopup);
+      function reopenPinnedPopup() {
+        if (!pinnedPopup || !geoLayer) return;
+        const { iso } = pinnedPopup;
+        const countryProjects = projectByIso.get(iso);
+        if (!countryProjects) {
+          pinnedPopup = null;
+          map.closePopup();
+          return;
+        }
+        const html = buildPopupHTML(countryProjects);
+        if (!html) {
+          pinnedPopup = null;
+          map.closePopup();
+          return;
+        }
+        const layer = geoLayer.getLayers().find((l) => getIsoFromFeature(l.feature) === iso);
+        if (!layer) return;
+        pinnedPopup.popup.setLatLng(layer.getBounds().getCenter()).setContent(html).openOn(map);
       }
 
-      const GEOJSON_URL = "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/geojson/ne_110m_admin_0_countries.geojson";
+      function clearPinnedPopup() {
+        pinnedPopup = null;
+        map.closePopup();
+      }
+
+      const toggleButtons = document.querySelectorAll(".toggle-option");
+      toggleButtons.forEach((btn) => {
+        btn.addEventListener("click", (e) => {
+          toggleButtons.forEach((b) => b.classList.remove("active"));
+          e.target.classList.add("active");
+          statusFilter = e.target.dataset.status;
+          updateProjectCount();
+          if (geoLayer) geoLayer.setStyle(regionStyle);
+          reopenPinnedPopup();
+        });
+      });
+
+      themeDropdownButton.addEventListener("click", () => {
+        const isOpen = themeDropdown.classList.toggle("open");
+        themeDropdownButton.setAttribute("aria-expanded", isOpen ? "true" : "false");
+      });
+
+      themeDropdownMenu.addEventListener("click", (event) => {
+        const option = event.target.closest(".theme-dropdown-option");
+        if (!option) return;
+        themeSelect.value = option.dataset.value;
+        updateThemeDropdownUI();
+        updateProjectCount();
+        if (geoLayer) geoLayer.setStyle(regionStyle);
+        reopenPinnedPopup();
+        themeDropdown.classList.remove("open");
+        themeDropdownButton.setAttribute("aria-expanded", "false");
+      });
+
+      document.addEventListener("click", (event) => {
+        if (!themeDropdown.contains(event.target)) {
+          themeDropdown.classList.remove("open");
+          themeDropdownButton.setAttribute("aria-expanded", "false");
+        }
+      });
+
+      const map = L.map("map", {
+        zoomControl: true,
+        scrollWheelZoom: true,
+        doubleClickZoom: true,
+        touchZoom: true,
+        dragging: true,
+        zoomSnap: 0.5
+      }).setView([15, 15], 2);
+
+      map.zoomControl.setPosition("topright");
 
       async function init() {
         buildThemeDropdown();
@@ -720,7 +748,7 @@
 
         let geojson;
         try {
-          const res = await fetch(GEOJSON_URL);
+          const res = await fetch("https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/geojson/ne_110m_admin_0_countries.geojson");
           if (!res.ok) throw new Error(`GeoJSON fetch failed: ${res.status} ${res.statusText}`);
           geojson = await res.json();
         } catch (err) {
@@ -737,27 +765,33 @@
             if (!countryProjects) return;
 
             layer.on("mouseover", (e) => {
-              if (pinnedCountryIso && pinnedCountryIso !== iso) return;
+              if (pinnedPopup) return;
               const html = buildPopupHTML(countryProjects);
               if (!html) return;
-              hoverPopup.setLatLng(e.latlng).setContent(html).openOn(map);
+              const popup = L.popup({ autoPan: true, closeButton: false, className: "project-popup" })
+                .setLatLng(e.latlng)
+                .setContent(html);
+              popup.openOn(map);
             });
 
             layer.on("mouseout", (e) => {
-              if (pinnedCountryIso === iso) return;
+              if (pinnedPopup) return;
               const related = e?.originalEvent?.relatedTarget;
               if (related && related.closest && related.closest(".project-popup")) return;
-              map.closePopup(hoverPopup);
+              map.closePopup();
             });
 
             layer.on("click", () => {
               const html = buildPopupHTML(countryProjects);
               if (!html) {
-                closePanel();
+                clearPinnedPopup();
                 return;
               }
-              pinnedCountryIso = iso;
-              hoverPopup.setLatLng(layer.getBounds().getCenter()).setContent(html).openOn(map);
+              const popup = L.popup({ autoPan: true, closeButton: false, className: "project-popup" })
+                .setLatLng(layer.getBounds().getCenter())
+                .setContent(html);
+              pinnedPopup = { iso, popup };
+              popup.openOn(map);
             });
           }
         }).addTo(map);
@@ -765,7 +799,7 @@
         map.on("click", (e) => {
           const clickedOnCountry = e.originalEvent?.target?.closest?.(".leaflet-interactive");
           const clickedOnPopup = e.originalEvent?.target?.closest?.(".project-popup");
-          if (!clickedOnCountry && !clickedOnPopup) closePanel();
+          if (!clickedOnCountry && !clickedOnPopup) clearPinnedPopup();
         });
 
         const bounds = [];
@@ -773,7 +807,6 @@
           const iso = getIsoFromFeature(layer.feature);
           if (projectByIso.has(iso)) bounds.push(layer.getBounds());
         });
-
         if (bounds.length) {
           const combined = bounds.reduce((acc, b) => acc.extend(b), bounds[0]);
           map.fitBounds(combined.pad(0.3));
@@ -792,7 +825,6 @@
 
         const disableDragging = () => map.dragging.disable();
         const enableDragging = () => map.dragging.enable();
-
         content.addEventListener("mouseenter", disableDragging);
         content.addEventListener("mouseleave", enableDragging);
         content.addEventListener("touchstart", disableDragging, { passive: false });
