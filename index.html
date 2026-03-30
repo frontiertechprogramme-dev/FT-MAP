@@ -286,11 +286,7 @@
     border: 1px solid rgba(255,255,255,0.35);
   }
 
-  .panel-hint {
-    font-size: 12px;
-    opacity: 0.7;
-    margin-top: 6px;
-  }
+  
 
   .leaflet-popup-tip {
     display: none;
@@ -305,11 +301,7 @@
     border-radius: 16px;
   }  
 
-  .scrollable-projects {
-    max-height: 400px;
-    overflow-y: auto;
-    padding-top: 10px;
-  }
+  
 
   .project-popup .leaflet-popup-content {
     margin: 0;
@@ -344,11 +336,7 @@
     overflow-x: hidden;
   }
 
-  .project-popup .scrollable-projects {
-    max-height: 200px;
-    overflow-y: scroll;
-    padding-top: 10px;
-  }
+  
 
   .project-button {
     display: inline-block;
@@ -768,8 +756,7 @@ function currentThemeColor() {
 
         if (filtered.length === 0) return "";
 
-        const displayed = filtered.slice(0, 3);
-        const extra = filtered.slice(3);
+        
 
         return `
           <div class="popup-wrap">
@@ -779,7 +766,7 @@ function currentThemeColor() {
             </div>
 
             <div class="popup-body">
-              ${displayed.map(proj => `
+              ${filtered.map(proj => `
                 <div class="panel-project">
                   <div class="panel-project-title">${proj.project}</div>
                   <div class="panel-row"><strong>Pilot Status:</strong> ${proj.pilot_status || "-"}</div>
@@ -787,16 +774,6 @@ function currentThemeColor() {
                   ${proj.url ? `<a href="${proj.url}" class="project-button" target="_blank">Learn more</a>` : ""}
                 </div>
               `).join("")}
-
-              ${extra.length > 0 ? `
-                <div class="panel-hint">Scroll for more Pilots.</div>
-                <div class="scrollable-projects">
-                  ${extra.map(proj => `
-                    <div class="panel-project">
-                      <div class="panel-project-title">${proj.project}</div>
-                      <div class="panel-row"><strong>Pilot Status:</strong> ${proj.pilot_status || "-"}</div>
-                      ${renderThemeChips(proj.themes)}
-                      ${proj.url ? `<a href="${proj.url}" class="project-button" target="_blank">Learn more</a>` : ""}
                     </div>
                   `).join("")}
                 </div>
@@ -898,11 +875,10 @@ function currentThemeColor() {
         infoPanelTitle.textContent = countryProjects.country;
         infoPanelMeta.textContent = `${filteredProjects.length} Pilot${filteredProjects.length === 1 ? "" : "s"}`;
 
-        const displayedProjects = filteredProjects.slice(0, 3);
-        const extraProjects = filteredProjects.slice(3);
+        
 
         infoPanelBody.innerHTML = `
-          ${displayedProjects.map(proj => `
+          ${filteredProjects.map(proj => `
             <div class="panel-project">
               <div class="panel-project-title">${proj.project}</div>
               <div class="panel-row"><strong>Pilot Status:</strong> ${proj.pilot_status || "-"}</div>
@@ -910,20 +886,6 @@ function currentThemeColor() {
               ${proj.url ? `<a href="${proj.url}" class="project-button" target="_blank">Learn more</a>` : ""}
             </div>
           `).join("")}
-
-          ${extraProjects.length > 0 ? `
-            <div class="panel-hint">Scroll for more Pilots.</div>
-            <div class="scrollable-projects">
-              ${extraProjects.map(proj => `
-                <div class="panel-project">
-                  <div class="panel-project-title">${proj.project}</div>
-                  <div class="panel-row"><strong>Pilot Status:</strong> ${proj.pilot_status || "-"}</div>
-                  ${renderThemeChips(proj.themes)}
-                  ${proj.url ? `<a href="${proj.url}" class="project-button" target="_blank">Learn more</a>` : ""}
-                </div>
-              `).join("")}
-            </div>
-          ` : ''}
         `;
 
         infoPanel.style.display = "block";
