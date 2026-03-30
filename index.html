@@ -113,12 +113,9 @@
   /* Hide Leaflet attribution */
   .leaflet-control-attribution { display: none; }
 
-  /* =========================
-     SIDE PANEL (replaces popup)
-     ========================= */
   #infoPanel {
     position: absolute;
-    top: 56px;               /* sits below toolbar */
+    top: 56px;
     right: 14px;
     width: 420px;
     max-width: calc(100vw - 28px);
@@ -127,7 +124,7 @@
     border-radius: 18px;
     box-shadow: 0 18px 50px rgba(0,0,0,0.25);
     overflow: hidden;
-    display: none;           /* hidden until opened */
+    display: none;
     z-index: 10;
     backdrop-filter: blur(6px);
   }
@@ -158,7 +155,7 @@
 
   #infoPanelBody {
     padding: 14px;
-    overflow-y: scroll;  /* Always show scrollbar */
+    overflow-y: scroll;
     max-height: 300px;
   }
 
@@ -219,12 +216,10 @@
     margin-top: 6px;
   }
 
-  /* Hide the popup tip/arrow */
   .leaflet-popup-tip {
     display: none;
   }  
 
-    /* Style popup wrapper */
   .leaflet-popup-content-wrapper {
     border-radius: 16px;
     overflow: hidden;
@@ -234,18 +229,17 @@
     border-radius: 16px;
   }  
 
-  /* Scrollable section for extra projects */
   .scrollable-projects {
-    max-height: 400px; /* Set a max height for the scrollable section */
-    overflow-y: auto; /* Enable scrolling if there are more projects */
+    max-height: 400px;
+    overflow-y: auto;
     padding-top: 10px;
   }
 
   .project-popup .leaflet-popup-content {
     margin: 0;
-    width: 420px; /* Caps the width of the popup */
-    max-height: 360px; /* Caps the height of the popup */
-    overflow: auto; /* Manage overflow */
+    width: 420px;
+    max-height: 360px;
+    overflow: auto;
   }
 
   .project-popup .popup-header {
@@ -267,17 +261,16 @@
     margin-top: 2px;
   }
 
-  /* This is the popup body that holds the projects */
   .project-popup .popup-body {
     padding: 14px;
     max-height: 300px;
-    overflow-y: scroll;   /* Always show scrollbar */
+    overflow-y: scroll;
     overflow-x: hidden;
   }
 
   .project-popup .scrollable-projects {
     max-height: 200px;
-    overflow-y: scroll;  /* Always show scrollbar */
+    overflow-y: scroll;
     padding-top: 10px;
   }
 
@@ -286,7 +279,7 @@
     margin-top: 8px;
     padding: 8px 16px;
     background: #ffffff;
-    color: ##1A807D;
+    color: #1A807D;
     text-decoration: none;
     border-radius: 6px;
     font-size: 13px;
@@ -301,7 +294,6 @@
     color: #ffffff;
   }
 
-  /* Mobile: turn panel into bottom sheet */
   @media (max-width: 640px) {
     #infoPanel {
       left: 14px;
@@ -313,7 +305,6 @@
     }
   }
   </style>
-
 </head>
 
 <body>
@@ -334,7 +325,6 @@
 
     <div id="map"></div>
 
-    <!-- Side panel -->
     <div id="infoPanel" role="dialog" aria-modal="false" aria-label="Country projects panel">
       <div id="infoPanelHeader">
         <div>
@@ -346,124 +336,236 @@
     </div>
   </div>
 
-  <!-- Leaflet JS -->
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
   <script>
     window.addEventListener("load", () => {
-      /* =========================
-         PROJECT DATA
-         ========================= */
-      const projects = [
-        {
-          iso_a3: "BGD",
-          country: "Bangladesh",
-          projects: [
-            {
-              project: "Evidence for accountability: Remote sensing to protect the environment from harms",
-              themes: ["Nature and Biodiversity"],
-              pilot_status: "Live"
-            },
-            {
-              project: "Applying data aggregator platform and distributed manufacturing technologies to meet",
-              themes: ["Humanitarian"],
-              pilot_status: "Closed"
-            },
-            {
-              project: "Humanitarian Supplies on the Blockchain",
-              themes: ["Humanitarian"],
-              pilot_status: "Closed"
-            }
-          ]
-        },
-        {
-          iso_a3: "BRA",
-          country: "Brazil",
-          projects: [
-            {
-              project: "Stop the spread: Using drones and nano-bio gel to prevent wildfires",
-              themes: ["Nature and Biodiversity"],
-              pilot_status: "Live"
-            }
-          ]
-        },
-        {
-          iso_a3: "KEN",
-          country: "Kenya",
-          projects: [
-            {
-              project: "Data for matchmaking: Connecting start-ups and funders",
-              themes: ["Sustainable Economic Development"],
-              pilot_status: "Live",
-              url: "https://www.frontiertechhub.org/pilot-portfolio/unlocking-innovation"
-            },
-            {
-              project: "Smart mobility: using assistive tech and digital mapping to promote urban accessibility",
-              themes: ["Infrastructure and Energy"],
-              pilot_status: "Live"
-            },
-            {
-              project: "Solar Home electrolyser proof of concept",
-              themes: ["Infrastructure and Energy"],
-              pilot_status: "Closed"
-            },
-            {
-              project: "Low-cost sensors for optimal insect protein production",
-              themes: ["Agriculture and Food Security"],
-              pilot_status: "Closed"
-            },
-            {
-              project: "Portable Benefits and Protections Platform",
-              themes: ["Other"],
-              pilot_status: "Closed"
-            },
-            {
-              project: "Kijenzi - Manufacturing for the next frontier",
-              themes: ["Sustainable Economic Development"],
-              pilot_status: "Closed"
-            },
-            {
-              project: "Smart Contraceptive Vending Machines",
-              themes: ["Global Health"],
-              pilot_status: "Closed"
-            },
-            {
-              project: "EVs and Mini-Grids",
-              themes: ["Infrastructure and Energy"],
-              pilot_status: "Closed"
-            },
-            {
-              project: "Monitoring biodiversity with frontier sensing technologies",
-              themes: ["Nature and Biodiversity"],
-              pilot_status: "Closed"
-            }
-          ]
-        }
-      ];
+      const rawPilots = [
+  { pilot: "3D Printing in Nepal", country: "Nepal", sector: "Humanitarian", pilot_status: "closed", url: "https://www.frontiertechhub.org/pilot-portfolio/3d-printing-nepal" },
+  { pilot: "Machine Learning for Classifying Road Conditions in Tanzania", country: "Tanzania", sector: "Other", pilot_status: "closed", url: "https://www.frontiertechhub.org/pilot-portfolio/ai-roadconditions-tanzania" },
+  { pilot: "Smart Solar Batteries for Healthcare in Rural Zimbabwe", country: "Zimbabwe", sector: "Infrastructure and energy", pilot_status: "closed", url: "https://www.frontiertechhub.org/pilot-portfolio/solarbatteries-zimbabwe" },
+  { pilot: "Sustainable eWATER Supply in Tanzania", country: "Tanzania", sector: "Infrastructure and energy", pilot_status: "closed", url: "https://www.frontiertechhub.org/pilot-portfolio/ewater-supply-tanzania" },
+  { pilot: "Blockchain Technology for the Humanitarian Supply Chain", country: "Bangladesh", sector: "Humanitarian", pilot_status: "closed", url: "https://www.frontiertechhub.org/pilot-portfolio/blockchain-humanitarian-supplychain" },
+  { pilot: "Frontier Infrastructure Management", country: "India", sector: "Infrastructure and energy", pilot_status: "closed", url: "https://www.frontiertechhub.org/pilot-portfolio/frontier-infrastructure-managment" },
+  { pilot: "Mesh networks to improve educational outcomes in Mozambique", country: "Mozambique", sector: "Education", pilot_status: "closed", url: "https://www.frontiertechhub.org/pilot-portfolio/mesh-networks-education" },
+  { pilot: "Wireless Mesh Networks for Markets in Mozambique", country: "Mozambique", sector: "Sustainable Economic Development", pilot_status: "closed", url: "https://www.frontiertechhub.org/pilot-portfolio/mesh-networks-markets" },
+  { pilot: "A long distance UAV for multi-role humanitarian response", country: "Malawi", sector: "Other", pilot_status: "closed", url: "https://www.frontiertechhub.org/pilot-portfolio/long-distance-uav" },
+  { pilot: "EVs and Mini-Grids", country: "Kenya", sector: "Infrastructure and energy", pilot_status: "closed", url: "https://www.frontiertechhub.org/pilot-portfolio/ev-minigrids" },
+  { pilot: "Low Cost, Low Pollution Motorised Transport in Kigali", country: "Rwanda", sector: "Infrastructure and energy", pilot_status: "closed", url: "https://www.frontiertechhub.org/pilot-portfolio/electric-motorcycle-taxis" },
+  { pilot: "Pay-As-You-Go Bikes", country: "Zambia", sector: "Sustainable Economic Development", pilot_status: "closed", url: "https://www.frontiertechhub.org/pilot-portfolio/pay-as-you-go-bikes" },
+  { pilot: "Smart Contraceptive Vending Machines", country: "Kenya", sector: "Global health", pilot_status: "closed", url: "https://www.frontiertechhub.org/pilot-portfolio/smart-contraceptive-vending" },
+  { pilot: "UAVs for lab sample transport in Mozambique", country: "Mozambique", sector: "Global health", pilot_status: "closed", url: "https://www.frontiertechhub.org/pilot-portfolio/uav-tb-labsample" },
+  { pilot: "Pay-as-you-chill cold storage solutions in Zambia", country: "Zambia", sector: "Sustainable Economic Development", pilot_status: "closed", url: "https://www.frontiertechhub.org/pilot-portfolio/pay-as-you-chill-zambia" },
+  { pilot: "AI-assisted tools to Diagnose TB and Silicosis", country: "South Africa", sector: "Global health", pilot_status: "closed", url: "https://www.frontiertechhub.org/pilot-portfolio/ai-for-tb" },
+  { pilot: "Delivering medical supplies with sustained UAV Operations in Malawi", country: "Malawi", sector: "Other", pilot_status: "closed", url: "https://www.frontiertechhub.org/pilot-portfolio/sustained-uav-operations" },
+  { pilot: "E-Commerce Platform serving Remote Businesses", country: "Nigeria", sector: "Sustainable Economic Development", pilot_status: "closed", url: "https://www.frontiertechhub.org/pilot-portfolio/ecommerce-remote-businesses" },
+  { pilot: "Internet of Things (IoT) for a water quality revolution", country: "Jordan", sector: "Infrastructure and energy", pilot_status: "closed", url: "https://www.frontiertechhub.org/pilot-portfolio/iot-water-quality" },
+  { pilot: "Internet of Things (IoT) for an air quality data revolution", country: "Kenya", sector: "Nature and Biodiversity", pilot_status: "closed", url: "https://www.frontiertechhub.org/pilot-portfolio/iot-air-quality" },
+  { pilot: "Remote education access in Myanmar", country: "Myanmar", sector: "Humanitarian", pilot_status: "closed", url: "https://www.frontiertechhub.org/pilot-portfolio/remote-education-access" },
+  { pilot: "Sexual and Reproductive Health Chatbot", country: "Kenya", sector: "Global health", pilot_status: "closed", url: "https://www.frontiertechhub.org/pilot-portfolio/srh-chatbot" },
+  { pilot: "Tracking UK Aid on the Blockchain", country: "Iraq", sector: "Humanitarian Aid", pilot_status: "closed", url: "https://www.frontiertechhub.org/pilot-portfolio/tracking-ukaid-blockchain" },
+  { pilot: "Tracking UK Aid on the Blockchain", country: "Palestine", sector: "Humanitarian Aid", pilot_status: "closed", url: "https://www.frontiertechhub.org/pilot-portfolio/tracking-ukaid-blockchain" },
+  { pilot: "Blockchain Certified Digital Payments for Miners", country: "DRC", sector: "Infrastructure and energy", pilot_status: "closed", url: "https://www.frontiertechhub.org/pilot-portfolio/blockchain-for-miners" },
+  { pilot: "Data aggregator platform & distributed manufacturing technologies to distribute PPE in Bangladesh", country: "Bangladesh", sector: "Humanitarian", pilot_status: "closed", url: "https://www.frontiertechhub.org/pilot-portfolio/data-aggregator-platform-brac" },
+  { pilot: "Digital verification platform for Social Impact Bonds", country: "South Africa", sector: "Other", pilot_status: "closed", url: "https://www.frontiertechhub.org/pilot-portfolio/digital-verification-socialimpactbonds" },
+  { pilot: "High Tech Solutions for supply chain and distribution", country: "India", sector: "Other", pilot_status: "closed", url: "https://www.frontiertechhub.org/pilot-portfolio/hightechsolutions-for-supplychaindistribution" },
+  { pilot: "IoT-enabled household battery distribution via micro-retailer networks", country: "Senegal", sector: "Infrastructure and energy", pilot_status: "closed", url: "https://www.frontiertechhub.org/pilot-portfolio/iot-household-battery" },
+  { pilot: "Kijenzi - Manufacturing for the next frontier", country: "Kenya", sector: "Sustainable Economic Development", pilot_status: "closed", url: "https://www.frontiertechhub.org/pilot-portfolio/kijenzi-3dprinting" },
+  { pilot: "Piloting the effectiveness of drones in tackling Desert locusts in East Africa", country: "Kenya", sector: "Agriculture and food security", pilot_status: "closed", url: "https://www.frontiertechhub.org/pilot-portfolio/drones-locusts" },
+  { pilot: "Portable Benefits and Protection Platform", country: "Kenya", sector: "Other", pilot_status: "closed", url: "https://www.frontiertechhub.org/pilot-portfolio/portable-benefits" },
+  { pilot: "Solar Health Covid Response", country: "Zambia", sector: "Infrastructure and energy", pilot_status: "closed", url: "https://www.frontiertechhub.org/pilot-portfolio/solar-covid-response" },
+  { pilot: "ELEK TEY – Electrifying Water Transport for Better Livelihoods", country: "Senegal", sector: "Infrastructure and energy", pilot_status: "closed", url: "https://www.frontiertechhub.org/pilot-portfolio/elek-tey" },
+  { pilot: "A governance-enhanced platform to support the humanitarian crisis in Venezuela", country: "Venezuela", sector: "Humanitarian", pilot_status: "closed", url: "https://www.frontiertechhub.org/pilot-portfolio/govtech-humanitariancrisis-venezuela" },
+  { pilot: "De-duplicating aid to enhance the impact of humanitarian assistance", country: "Nigeria", sector: "Humanitarian", pilot_status: "closed", url: "https://www.frontiertechhub.org/pilot-portfolio/deduplicatingaid-nigeria" },
+  { pilot: "Early Warning Forest Fire Detection System", country: "Pakistan", sector: "Nature and Biodiversity", pilot_status: "closed", url: "https://www.frontiertechhub.org/pilot-portfolio/fire-detection-system" },
+  { pilot: "Enabling smallholder farmers to access the global carbon markets", country: "Uganda", sector: "Climate", pilot_status: "closed", url: "https://www.frontiertechhub.org/pilot-portfolio/carbonmarkets-uganda" },
+  { pilot: "Flying medicines over mountains in the Nepali health system", country: "Nepal", sector: "Global health", pilot_status: "closed", url: "https://www.frontiertechhub.org/pilot-portfolio/flyingmedicines-nepal" },
+  { pilot: "Improving Land Records in Karnataka through Blockchain", country: "India", sector: "Sustainable Economic Development", pilot_status: "closed", url: "https://www.frontiertechhub.org/pilot-portfolio/landrecords-blockchain-india" },
+  { pilot: "Mangrove Aquaculture for Sustainable Marine Livelihoods", country: "Mozambique", sector: "Nature and Biodiversity", pilot_status: "closed", url: "https://www.frontiertechhub.org/pilot-portfolio/mangrove-aquaculture" },
+  { pilot: "Smart geoseals to track delivery of humanitarian aid", country: "Ethiopia", sector: "Humanitarian", pilot_status: "closed", url: "https://www.frontiertechhub.org/pilot-portfolio/smart-geoseals" },
+  { pilot: "Testing the production of hydroponic fodder for cattle", country: "Nigeria", sector: "Agriculture and food security", pilot_status: "closed", url: "https://www.frontiertechhub.org/pilot-portfolio/hydoponic-fodder" },
+  { pilot: "Validation of low-cost sensors for optimal insect protein production", country: "Kenya", sector: "Agriculture and food security", pilot_status: "closed", url: "https://www.frontiertechhub.org/pilot-portfolio/sensors-insectprotein" },
+  { pilot: "AR/VR for CRSV", country: "UK", sector: "Human rights and Democracy", pilot_status: "closed", url: "https://www.frontiertechhub.org/pilot-portfolio/ar-vr-crsv-accountability" },
+  { pilot: "Beyond relief", country: "Botswana", sector: "Sustainable Economic Development", pilot_status: "closed", url: "https://www.frontiertechhub.org/pilot-portfolio/beyondrelief-digital-remittance" },
+  { pilot: "Beyond relief", country: "Zimbabwe", sector: "Sustainable Economic Development", pilot_status: "closed", url: "https://www.frontiertechhub.org/pilot-portfolio/beyondrelief-digital-remittance" },
+  { pilot: "Beyond relief", country: "Zambia", sector: "Sustainable Economic Development", pilot_status: "closed", url: "https://www.frontiertechhub.org/pilot-portfolio/beyondrelief-digital-remittance" },
+  { pilot: "Democratising Deep-Sea Discovery for Developing Nations", country: "St Helena", sector: "Nature and Biodiversity", pilot_status: "closed", url: "https://www.frontiertechhub.org/pilot-portfolio/democratising-deep-sea-discovery" },
+  { pilot: "Digital mapping to protect freedom of belief", country: "UK", sector: "Human rights and Democracy", pilot_status: "closed", url: "https://www.frontiertechhub.org/pilot-portfolio/digital-mapping-forb" },
+  { pilot: "DNA forensics to tackle illegal wildlife trade with MinION technology", country: "Colombia", sector: "Nature and Biodiversity", pilot_status: "live", url: "https://www.frontiertechhub.org/pilot-portfolio/dnaforensics-colombia" },
+  { pilot: "EmpatIA - AI to enhance healthcare in remote areas of Peru", country: "Peru", sector: "Global health", pilot_status: "closed", url: "https://www.frontiertechhub.org/pilot-portfolio/empati-healthcare" },
+  { pilot: "eTriage for social inclusion: navigating out of vulnerability situations", country: "Philippines", sector: "Global health", pilot_status: "closed", url: "https://www.frontiertechhub.org/pilot-portfolio/etriage-social-inclusion" },
+  { pilot: "FOLIA: Data to improve cocoa production", country: "Colombia", sector: "Agriculture and food security", pilot_status: "closed", url: "https://www.frontiertechhub.org/pilot-portfolio/cocoa-production-colombia" },
+  { pilot: "Harnessing sensor technologies to improve beekeeping productivity in South Africa", country: "South Africa", sector: "Agriculture and food security", pilot_status: "closed", url: "https://www.frontiertechhub.org/pilot-portfolio/sensortechnologies-beekeeping" },
+  { pilot: "Improved education through AR", country: "Mexico", sector: "Education", pilot_status: "closed", url: "https://www.frontiertechhub.org/pilot-portfolio/metaverse-education-mexico" },
+  { pilot: "Integrating AI into the asset management of rural water supply schemes in Nepal", country: "Nepal", sector: "Infrastructure and energy", pilot_status: "closed", url: "https://www.frontiertechhub.org/pilot-portfolio/ruralwaterschemes-nepal" },
+  { pilot: "Localised distributed production techniques in the Pacific", country: "Solomon Islands", sector: "Sustainable Economic Development", pilot_status: "closed", url: "https://www.frontiertechhub.org/pilot-portfolio/3dprinting-solomonislands" },
+  { pilot: "Platform to support Peace Positive Investments", country: "Colombia", sector: "Human rights and Democracy", pilot_status: "closed", url: "https://www.frontiertechhub.org/pilot-portfolio/geo-data-positive-peace" },
+  { pilot: "Platform to support Peace Positive Investments", country: "Yemen", sector: "Human rights and Democracy", pilot_status: "closed", url: "https://www.frontiertechhub.org/pilot-portfolio/geo-data-positive-peace" },
+  { pilot: "Platform to support Peace Positive Investments", country: "Liberia", sector: "Human rights and Democracy", pilot_status: "closed", url: "https://www.frontiertechhub.org/pilot-portfolio/geo-data-positive-peace" },
+  { pilot: "Pnyx, the digital public assembly; redefining representation", country: "Malaysia", sector: "Human rights and Democracy", pilot_status: "closed", url: "https://www.frontiertechhub.org/pilot-portfolio/pnyx-digitalpublicassembly" },
+  { pilot: "Project Sapling", country: "Sierra Leone", sector: "Climate", pilot_status: "closed", url: "https://www.frontiertechhub.org/pilot-portfolio/project-sapling" },
+  { pilot: "Quantifying GHG offset potential of green roofs in Southern Africa", country: "South Africa", sector: "Climate", pilot_status: "closed", url: "https://www.frontiertechhub.org/pilot-portfolio/ghg-offset-southern-africa" },
+  { pilot: "Safeguarding land-based climate investments with blockchain", country: "Ghana", sector: "Climate", pilot_status: "closed", url: "https://www.frontiertechhub.org/pilot-portfolio/safeguarding-land-blockchain" },
+  { pilot: "Solar Home Electrolyser Proof of Concept", country: "Kenya", sector: "Infrastructure and energy", pilot_status: "closed", url: "https://www.frontiertechhub.org/pilot-portfolio/solarhome-electrolyser" },
+  { pilot: "Using AI to scale access to forest carbon markets", country: "Tanzania", sector: "Climate", pilot_status: "closed", url: "https://www.frontiertechhub.org/pilot-portfolio/ai-forest-carbon-markets-tanzania" },
+  { pilot: "Using climate change scenarios to inform community-based adaptation and planning in Nepal", country: "Nepal", sector: "Climate", pilot_status: "live", url: "https://www.frontiertechhub.org/pilot-portfolio/climatechangescenarios-nepal" },
+  { pilot: "AI predictions of forced displacement", country: "Ukraine", sector: "Humanitarian", pilot_status: "live", url: "https://www.frontiertechhub.org/pilot-portfolio/predicting-forced-displacement-in-near-real-time0" },
+  { pilot: "Behaviour change chatbot", country: "Nigeria", sector: "Global health", pilot_status: "closed", url: "https://www.frontiertechhub.org/pilot-portfolio/behaviour-change-chatbot" },
+  { pilot: "Bioplastic future: using bioplastics to transform domestic plastic production", country: "Nepal", sector: "Sustainable Economic Development", pilot_status: "closed", url: "https://www.frontiertechhub.org/pilot-portfolio/bioplastic-nepal" },
+  { pilot: "DevExplorer: a tool for international development professionals", country: "UK", sector: "Other", pilot_status: "live", url: "https://www.frontiertechhub.org/pilot-portfolio/llms-for-evidence-based-tasks" },
+  { pilot: "Optimising vaccines through gene editing in Vero cells", country: "Senegal", sector: "Global health", pilot_status: "live", url: "https://www.frontiertechhub.org/pilot-portfolio/optimising-vaccine-gene-editing" },
+  { pilot: "Rice husks to silica", country: "Malaysia", sector: "Agriculture and food security", pilot_status: "live", url: "https://www.frontiertechhub.org/pilot-portfolio/rice-husk-to-silicon" },
+  { pilot: "Smart Districts in Tamil Nadu", country: "India", sector: "Infrastructure and energy", pilot_status: "closed", url: "https://www.frontiertechhub.org/pilot-portfolio/smart-district-tamil-nadu" },
+  { pilot: "Smart Mobility", country: "Kenya", sector: "Infrastructure and energy", pilot_status: "live", url: "https://www.frontiertechhub.org/pilot-portfolio/smart-mobility-kenya" },
+  { pilot: "Turning drylands into global carbon sinks", country: "Senegal", sector: "Climate", pilot_status: "live", url: "https://www.frontiertechhub.org/pilot-portfolio/drylands-global-carbon-sinks" },
+  { pilot: "AI legal assistant", country: "Malawi", sector: "Human rights and Democracy", pilot_status: "live", url: "https://www.frontiertechhub.org/pilot-portfolio/ai-legal-assistant" },
+  { pilot: "AI vs conflict misinformation in Sub-Saharan Africa", country: "Sudan", sector: "Human rights and Democracy", pilot_status: "closed", url: "https://www.frontiertechhub.org/pilot-portfolio/ai-vs-conflict-misinformation-in-sub-saharan-africa" },
+  { pilot: "AI-enhanced GBV reporting", country: "Malawi", sector: "Human rights and Democracy", pilot_status: "live", url: "https://www.frontiertechhub.org/pilot-portfolio/ai-gbv-chatbot" },
+  { pilot: "Bamboo and straw", country: "UK", sector: "Climate", pilot_status: "closed", url: "https://www.frontiertechhub.org/pilot-portfolio/bamboo-and-straw" },
+  { pilot: "Building consumer confidence in water", country: "India", sector: "Infrastructure and energy", pilot_status: "closed", url: "https://www.frontiertechhub.org/pilot-portfolio/water-confidence" },
+  { pilot: "Data for matchmaking", country: "Kenya", sector: "Sustainable Economic Development", pilot_status: "live", url: "https://www.frontiertechhub.org/pilot-portfolio/unlocking-innovation" },
+  { pilot: "Evidence for accountability: remote sensing to prevent the environment from harms", country: "Bangladesh", sector: "Nature and Biodiversity", pilot_status: "live", url: "https://www.frontiertechhub.org/pilot-portfolio/evidence-for-accountability" },
+  { pilot: "FOUND", country: "Mexico", sector: "Human rights and Democracy", pilot_status: "live", url: "https://www.frontiertechhub.org/pilot-portfolio/found-technologies-to-locate-clandestine-graves" },
+  { pilot: "Monitoring biodiversity with frontier sensing technologies", country: "Kenya", sector: "Nature and Biodiversity", pilot_status: "closed", url: "https://www.frontiertechhub.org/pilot-portfolio/monitoring-biodiversity" },
+  { pilot: "Monitoring biodiversity with frontier sensing technologies", country: "Uganda", sector: "Nature and Biodiversity", pilot_status: "closed", url: "https://www.frontiertechhub.org/pilot-portfolio/monitoring-biodiversity" },
+  { pilot: "Personalised learning tech for teacher professional development", country: "Malawi", sector: "Education", pilot_status: "closed", url: "https://www.frontiertechhub.org/pilot-portfolio/digital-personalised-learning" },
+  { pilot: "Protecting forests", country: "UK", sector: "Nature and Biodiversity", pilot_status: "closed", url: "https://www.frontiertechhub.org/pilot-portfolio/protecting-forests" },
+  { pilot: "Protecting white yam crops with banana-fibre paper", country: "Ghana", sector: "Agriculture and food security", pilot_status: "live", url: "https://www.frontiertechhub.org/pilot-portfolio/banana-fibre-paper" },
+  { pilot: "Stop the spread", country: "Brazil", sector: "Nature and Biodiversity", pilot_status: "live", url: "https://www.frontiertechhub.org/pilot-portfolio/stop-the-spread" },
+  { pilot: "SWaDE: Satellite-based water demand estimation", country: "Ethiopia", sector: "Agriculture and food security", pilot_status: "closed", url: "https://www.frontiertechhub.org/pilot-portfolio/swade" },
+  { pilot: "Cool by Design", country: "Chad", sector: "Climate", pilot_status: "live", url: "https://www.frontiertechhub.org/pilot-portfolio/cool-by-design" },
+  { pilot: "GenAI x Telemedicine & SRHR", country: "South Africa", sector: "Global health", pilot_status: "live", url: "https://www.frontiertechhub.org/pilot-portfolio/srh-x-genai" },
+  { pilot: "IdentIA: Identifying missing persons in Mexico", country: "Mexico", sector: "Humanitarian", pilot_status: "live", url: "https://www.frontiertechhub.org/pilot-portfolio/identia" },
+  { pilot: "Justice in Her Pocket", country: "Tanzania", sector: "Human rights and Democracy", pilot_status: "live", url: "https://www.frontiertechhub.org/pilot-portfolio/justice-in-her-pocket" },
+  { pilot: "Mekong at Risk", country: "Thailand", sector: "Global health", pilot_status: "live", url: "https://www.frontiertechhub.org/pilot-portfolio/mekong-at-risk" },
+  { pilot: "SpeakSafe", country: "Yemen", sector: "Humanitarian", pilot_status: "live", url: "https://www.frontiertechhub.org/pilot-portfolio/speaksafe" },
+  { pilot: "Ukraine Investment Integrity", country: "Ukraine", sector: "Other", pilot_status: "live", url: "https://www.frontiertechhub.org/pilot-portfolio/ukraine-investment-integrity" },
+  { pilot: "Last Mile Climate Insurance Payouts", country: "Philippines", sector: "Climate", pilot_status: "live", url: "https://www.frontiertechhub.org/pilot-portfolio/rare" },
+  { pilot: "Market-backed Climate Insurance for Fisherfolk", country: "Philippines", sector: "Climate", pilot_status: "live", url: "https://www.frontiertechhub.org/pilot-portfolio/mayani" },
+  { pilot: "Rainfall Insurance for Coffee Farmers", country: "Vietnam", sector: "Agriculture and food security", pilot_status: "live", url: "https://www.frontiertechhub.org/pilot-portfolio/hillridge" },
+  { pilot: "AI Literacy Lab", country: "Lithuania", sector: "Human rights and Democracy", pilot_status: "live", url: "https://www.frontiertechhub.org/pilot-portfolio/ai-literacy-lab" },
+  { pilot: "Economic Truth Dashboard", country: "Moldova", sector: "Human rights and Democracy", pilot_status: "live", url: "https://www.frontiertechhub.org/pilot-portfolio/economic-truth-dashboard" },
+  { pilot: "Online amplification networks detector", country: "Bulgaria", sector: "Human rights and Democracy", pilot_status: "live", url: "https://www.frontiertechhub.org/pilot-portfolio/online-amplification-networks-detector" }
+];
+
+const countryIsoMap = {
+  "Bangladesh": "BGD",
+  "Botswana": "BWA",
+  "Brazil": "BRA",
+  "Bulgaria": "BGR",
+  "Chad": "TCD",
+  "Colombia": "COL",
+  "DRC": "COD",
+  "Ethiopia": "ETH",
+  "Ghana": "GHA",
+  "India": "IND",
+  "Iraq": "IRQ",
+  "Jordan": "JOR",
+  "Kenya": "KEN",
+  "Liberia": "LBR",
+  "Lithuania": "LTU",
+  "Malawi": "MWI",
+  "Malaysia": "MYS",
+  "Mexico": "MEX",
+  "Moldova": "MDA",
+  "Mozambique": "MOZ",
+  "Myanmar": "MMR",
+  "Nepal": "NPL",
+  "Nigeria": "NGA",
+  "Pakistan": "PAK",
+  "Palestine": "PSE",
+  "Peru": "PER",
+  "Philippines": "PHL",
+  "Rwanda": "RWA",
+  "Senegal": "SEN",
+  "Sierra Leone": "SLE",
+  "Solomon Islands": "SLB",
+  "South Africa": "ZAF",
+  "St Helena": "SHN",
+  "Sudan": "SDN",
+  "Tanzania": "TZA",
+  "Thailand": "THA",
+  "Uganda": "UGA",
+  "UK": "GBR",
+  "Ukraine": "UKR",
+  "Venezuela": "VEN",
+  "Vietnam": "VNM",
+  "Yemen": "YEM",
+  "Zambia": "ZMB",
+  "Zimbabwe": "ZWE"
+};
+
+const sectorMap = {
+  "Agriculture and food security": "Agriculture and Food Security",
+  "Climate": "Climate",
+  "Education": "Education",
+  "Global health": "Global Health",
+  "Human rights and Democracy": "Human Rights and Democracy",
+  "Humanitarian": "Humanitarian",
+  "Humanitarian Aid": "Humanitarian",
+  "Infrastructure and energy": "Infrastructure and Energy",
+  "Nature and Biodiversity": "Nature and Biodiversity",
+  "Other": "Other",
+  "Sustainable Economic Development": "Sustainable Economic Development"
+};
+
+const countryNameMap = {
+  "DRC": "Democratic Republic of the Congo",
+  "UK": "United Kingdom",
+  "St Helena": "Saint Helena"
+};
+
+const groupedProjects = {};
+const unmappedSpreadsheetRows = [];
+
+rawPilots.forEach(row => {
+  const iso = countryIsoMap[row.country];
+  if (!iso) {
+    unmappedSpreadsheetRows.push(row);
+    return;
+  }
+
+  const countryLabel = countryNameMap[row.country] || row.country;
+  const sectorLabel = sectorMap[row.sector] || row.sector;
+  const statusLabel = row.pilot_status.toLowerCase() === "live" ? "Live" : "Closed";
+
+  if (!groupedProjects[iso]) {
+    groupedProjects[iso] = {
+      iso_a3: iso,
+      country: countryLabel,
+      projects: []
+    };
+  }
+
+  groupedProjects[iso].projects.push({
+    project: row.pilot,
+    themes: [sectorLabel],
+    pilot_status: statusLabel,
+    url: row.url
+  });
+});
+
+const projects = Object.values(groupedProjects).sort((a, b) => a.country.localeCompare(b.country));
 
       const projectByIso = new Map(
         projects.map(p => [String(p.iso_a3).trim().toUpperCase(), p])
       );
 
-      /* =========================
-         THEME COLOURS
-         ========================= */
       const themeColors = {
-        "Nature & Biodiversity": "#2f9e44",
-        "Humanitarian": "#f08c00",
-        "Sustainable Economic Development": "#51cf66",
-        "Infrastructure and Energy": "#4dabf7",
-        "Global Health": "#ff4d6d",
         "Agriculture and Food Security": "#47eafc",
+        "Democracy and Governance": "#845ef7",
+        "Education": "#ffd43b",
+        "Global Health": "#ff4d6d",
+        "Humanitarian": "#f08c00",
+        "Infrastructure and Energy": "#4dabf7",
+        "Nature & Biodiversity": "#2f9e44",
         "Nature and Biodiversity": "#01f9c6",
-        "Other": "#ccc"
+        "Other": "#ccc",
+        "Sustainable Economic Development": "#51cf66"
       };
 
       const defaultColor = "#ffffff";
 
-      /* =========================
-         THEME DROPDOWN + DOT
-         ========================= */
       const themes = Array.from(
         new Set(projects.flatMap(p => p.projects.flatMap(proj => proj.themes)))
       ).sort();
@@ -472,8 +574,7 @@
       const themeDot = document.getElementById("themeDot");
       const projectCountEl = document.getElementById("projectCount");
 
-      // Status toggle
-      let statusFilter = "live"; // "live" or "all"
+      let statusFilter = "live";
       const toggleButtons = document.querySelectorAll(".toggle-option");
       toggleButtons.forEach(btn => {
         btn.addEventListener("click", (e) => {
@@ -530,9 +631,6 @@
       updateThemeDot();
       updateProjectCount();
 
-      /* =========================
-         MAP SETUP (NO BASEMAP)
-         ========================= */
       const map = L.map("map", {
         zoomControl: true,
         scrollWheelZoom: true,
@@ -599,9 +697,6 @@
         `;
       }
 
-      /* =========================
-         HELPERS
-         ========================= */
       function isActiveTheme(projectList, selectedTheme) {
         if (!projectList) return false;
         if (selectedTheme === "__ALL__") return true;
@@ -648,6 +743,14 @@
         const active = isActiveTheme(countryProjects.projects, selected);
         if (!active) return base;
 
+        const hasMatchingProject = countryProjects.projects.some(proj => {
+          const themeMatch = selected === "__ALL__" || (proj.themes || []).includes(selected);
+          const statusMatch = statusFilter === "all" || proj.pilot_status === "Live";
+          return themeMatch && statusMatch;
+        });
+
+        if (!hasMatchingProject) return base;
+
         const fill = selected === "__ALL__"
           ? defaultColor
           : (themeColors[selected] || defaultColor);
@@ -661,9 +764,6 @@
         };
       }
 
-      /* =========================
-         SIDE PANEL LOGIC
-         ========================= */
       const infoPanel = document.getElementById("infoPanel");
       const infoPanelTitle = document.getElementById("infoPanelTitle");
       const infoPanelMeta = document.getElementById("infoPanelMeta");
@@ -675,14 +775,19 @@
           return;
         }
 
-        infoPanelTitle.textContent = countryProjects.country;
-        infoPanelMeta.textContent = `${countryProjects.projects.length} Pilot${countryProjects.projects.length === 1 ? "" : "s"}`;
-
         const filteredProjects = countryProjects.projects.filter(proj => {
           const themeMatch = themeSelect.value === "__ALL__" || proj.themes.includes(themeSelect.value);
           const statusMatch = statusFilter === "all" || proj.pilot_status === "Live";
           return themeMatch && statusMatch;
         });
+
+        if (filteredProjects.length === 0) {
+          closePanel();
+          return;
+        }
+
+        infoPanelTitle.textContent = countryProjects.country;
+        infoPanelMeta.textContent = `${filteredProjects.length} Pilot${filteredProjects.length === 1 ? "" : "s"}`;
 
         const displayedProjects = filteredProjects.slice(0, 3);
         const extraProjects = filteredProjects.slice(3);
@@ -722,9 +827,6 @@
         infoPanelBody.innerHTML = "";
       }
 
-      /* =========================
-         LOAD GEOJSON + INTERACTION
-         ========================= */
       let geoLayer = null;
 
       const GEOJSON_URL =
@@ -770,9 +872,21 @@
               map.closePopup(hoverPopup);
             });
 
-            map.on('click', () => map.closePopup(hoverPopup));
+            layer.on("click", (e) => {
+              const countryProjects = projectByIso.get(getIsoFromFeature(e.target.feature));
+              if (!countryProjects) return;
+              openPanel(countryProjects, e.latlng);
+            });
           }
         }).addTo(map);
+
+        map.on("click", (e) => {
+          const clickedOnCountry = e.originalEvent?.target?.closest?.('.leaflet-interactive');
+          if (!clickedOnCountry) {
+            closePanel();
+            map.closePopup(hoverPopup);
+          }
+        });
 
         const bounds = [];
         geoLayer.eachLayer(l => {
@@ -786,7 +900,6 @@
         }
       }
 
-      // Stop wheel/touch from bubbling to the map so the popup body can scroll
       map.on('popupopen', (e) => {
         const el = e.popup.getElement && e.popup.getElement();
         const content = el && el.querySelector('.popup-body');
@@ -824,7 +937,11 @@
       themeSelect.addEventListener("change", () => {
         updateThemeDot();
         updateProjectCount();
-        if (geoLayer) geoLayer.setStyle(regionStyle);
+        if (geoLayer) {
+          geoLayer.setStyle(regionStyle);
+          closePanel();
+          map.closePopup(hoverPopup);
+        }
       });
 
       init();
