@@ -192,7 +192,7 @@
 
     .leaflet-popup-content-wrapper {
       border-radius: 16px;
-      overflow: visible;
+      overflow: hidden;
       padding: 0;
       background: #ffffff;
     }
@@ -208,6 +208,7 @@
       border-left: 14px solid transparent;
       border-right: 14px solid transparent;
       border-top: 14px solid #ffffff;
+      z-index: 1;
     }
 
     .leaflet-popup {
@@ -243,10 +244,10 @@
 
     .project-popup .popup-title {
       font-family: "Open Sans", Arial, sans-serif;
-      font-weight: 400;
+      font-weight: 600;
       font-size: 16px;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
+      text-transform: none;
+      letter-spacing: normal;
       color: #42D6D1;
       line-height: 1.2;
     }
@@ -265,7 +266,7 @@
     }
 
     .panel-project {
-      padding: 20px;
+      padding: 20px 20px 16px 20px;
       margin-bottom: 12px;
       background: transparent;
       border-radius: 12px;
@@ -344,7 +345,7 @@
     .project-button {
       display: inline-block;
       margin-top: 16px;
-      margin-bottom: 4px;
+      margin-bottom: 0;
       padding: 8px 16px;
       background: transparent;
       color: #1A807D !important;
