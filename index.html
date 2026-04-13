@@ -725,6 +725,7 @@
               ${filtered.map((proj) => `
                 <div class="panel-project">
                   <div class="panel-project-title">${proj.project}</div>
+                  ${proj.question ? `<div class="panel-row" style="margin-top: 12px;"><strong>Question:</strong> ${proj.question}</div>` : ""}
                   <div class="meta-stack">
                     <div class="meta-row">
                       <div class="meta-label">Pilot Status</div>
